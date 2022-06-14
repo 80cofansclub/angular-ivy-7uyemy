@@ -11,11 +11,13 @@ export class AppComponent implements OnInit {
   title = 'testDep';
 
   fileList!: FileList;
+  file: string | ArrayBuffer;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.readFile();
+    console.log('init');
+    // this.readFile();
   }
 
   test() {
@@ -34,17 +36,6 @@ export class AppComponent implements OnInit {
     reader.onload = () => {
       console.log(reader.result);
     };
-  }
-
-  readFile() {
-    this.http
-      .get(
-        `file:///C:/Users/shannon_lin/Downloads/The-new-T-Roc-Presale-Flyer.pdf`,
-        { responseType: 'blob' }
-      )
-      .subscribe((res) => {
-        console.log(res);
-      });
   }
 
   downloadFile() {
