@@ -13,11 +13,13 @@ export class AppComponent implements OnInit {
   fileList!: FileList;
   file: string | ArrayBuffer;
 
+  blob2: Blob;
+
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     console.log('init');
-    // this.readFile();
+    this.readFile();
   }
 
   test() {
@@ -38,10 +40,23 @@ export class AppComponent implements OnInit {
     };
   }
 
+  readFile() {
+    this.http
+      .get(`https://cdn.jsdelivr.net/gh/80cofansclub/angular-ivy-7uyemy@master/src/assets/The-new-T-Roc-Presale-Flyer.pdf`, { responseType: 'blob' })
+      .subscribe((res) => {
+        this.blob2 = res;
+      });
+  }
+
   downloadFile() {
     const f = this.fileList.item(0);
     const reader = new FileReader();
     const blob = new Blob([f!], { type: 'application/pdf' });
+    FileSaver.saveAs(blob, 'test.pdf');
+  }
+
+  downloadInitFile() {
+    const blob = new Blob([this.blob2!], { type: 'application/pdf' });
     FileSaver.saveAs(blob, 'test.pdf');
   }
 }
